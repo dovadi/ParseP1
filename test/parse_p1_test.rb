@@ -18,4 +18,14 @@ class TestParseP1 < Test::Unit::TestCase
   should 'return the device_id of the meter' do
      assert_equal 'ABc1\1AB123-4567', @parse_p1.device_id
   end
+
+  #Sn (n=0..96), octet string is NOT true
+  should 'return the electra meter identifier of the meter' do
+    assert_equal '1A123456789012345678901234567890', @parse_p1.electra_meter_id
+  end
+
+  #Sn (n=0..96) octet string 
+  should 'return the gas meter identifier of the meter' do
+    assert_equal '1234567890123456789012345678901234', @parse_p1.gas_meter_id
+  end
 end
