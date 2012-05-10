@@ -2,21 +2,49 @@ ParseP1
 ========
 
 <a href='http://travis-ci.org/dovadi/parse_p1'>
-![http://travis-ci.org/dovadi/parse_p1_](https://secure.travis-ci.org/dovadi/parse_p1_.png)
+![http://travis-ci.org/dovadi/parse_p1_](https://secure.travis-ci.org/dovadi/ParseP1.png?branch=master)
 </a>
 
-Basis parser for P1 Companion Standard used by Dutch Smart Meters
+Basic parser for P1 Companion Standard used by Dutch Smart Meters
 
+
+Example of P1 data
+==================
+
+/ABc1\\1AB123-4567
+
+0-0:96.1.1(1A123456789012345678901234567890)
+1-0:1.8.1(00136.787*kWh)
+1-0:1.8.2(00131.849*kWh)
+1-0:2.8.1(00000.000*kWh)
+1-0:2.8.2(00000.000*kWh)
+0-0:96.14.0(0002)
+1-0:1.7.0(0003.20*kW)
+1-0:2.7.0(0000.00*kW)
+0-0:17.0.0(0999.00*kW)
+0-0:96.3.10(1)
+0-0:96.13.1()
+0-0:96.13.0()
+0-1:24.1.0(3)
+0-1:96.1.0(1234567890123456789012345678901234)
+0-1:24.3.0(120502150000)(00)(60)(1)(0-1:24.2.1)(m3)
+(00092.112)
+0-1:24.4.0(1)
+!
 
 Usage
 =====
 
-* to do *
+>  p1 = ParseP1::Base.new(p1_string)
+>  p1.electra_meter_id #-> 1A123456789012345678901234567890
+
+See tests for futher available methods
+
 
 Running tests
 =============
 
-> bundle install
+> bundle
 
 > bundle exec rake test or bundle exec guard
 
