@@ -1,5 +1,5 @@
-require "parse_p1/version"
+$:.unshift(File.dirname(__FILE__)) unless
+  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-module ParseP1
-  # Your code goes here...
-end
+require 'parse_p1/base'
+
