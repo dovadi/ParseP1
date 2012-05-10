@@ -1,4 +1,4 @@
-Parse P1
+ParseP1
 ========
 
 <a href='http://travis-ci.org/dovadi/parse_p1'>
@@ -20,7 +20,7 @@ Running tests
 
 > bundle exec rake test
 
-Contributing to MT940
+Contributing to ParseP1
 =====================
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
