@@ -5,7 +5,7 @@ ParseP1
 
 Basic parser for P1 Companion Standard used by Dutch Smart Meters.
 
-*Library is by no means complete (yet), it is now implemented only on one real example of a so called Dutch smart meter, in this case a Iskra MT382*
+*Library is by no means complete (yet), it is now implemented only on one real example of a so called Dutch smart meter, in this case a Iskra MT382.*
 
 Example of P1 data
 ==================
@@ -41,7 +41,7 @@ p1 = ParseP1::Base.new(p1_string)
 p1.electra_meter_id                                  #-> 1A123456789012345678901234567890
 p1.electricity(:type => :import, :tariff => :normal) #-> 116.34 (kWH)
 p1.electricity(:type => :import, :actual => :true)   #-> 1245   (watt)
-p1.gas_usage                                         #-> 91.224   (watt)
+p1.gas_usage                                         #-> 91.224 (m3)
 </pre>
 
 See tests for futher available methods
