@@ -27,9 +27,22 @@ module ParseP1
       $1
     end
 
+    def electricity_tariff_indicator
+      data.match(/0-0:96.14.0\S(\d{1,9})\S/)
+      $1.to_i
+    end
+
+    def electricity_actual_threshold
+      electricity('0-0:17.0.0')
+    end
+
     def electricity(options)
       if options.is_a?(Hash)
-        get_electricity("1-0:#{first_electricity_code(options[:type])}.8.#{second_electricity_code(options[:tariff])}")
+        if options[:actual] == true
+          get_actual_electricity(options[:type])
+        else
+          get_electricity("1-0:#{first_electricity_code(options[:type])}.8.#{second_electricity_code(options[:tariff])}")
+        end
       else
         get_electricity(options)
       end
@@ -38,14 +51,19 @@ module ParseP1
     private
 
     def get_electricity(obis_code)
-      data.match(/#{obis_code}\S(\d{1,9}\.\d{3})\S/)
+      data.match(/#{obis_code}\S(\d{1,9}\.\d{1,3})\S/)
       $1.to_f
+    end
+    
+    def get_actual_electricity(type)
+      power = get_electricity("1-0:#{first_electricity_code(type)}.7.0")
+      (power * 1000).to_i #Return as watts instead of kW
     end
 
     def first_electricity_code(code)
       case code
-      when :import; 1
-      when :export; 2
+      when :import; '1'
+      when :export; '2'
       end
     end
 
