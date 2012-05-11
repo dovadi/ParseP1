@@ -3,8 +3,9 @@ ParseP1
 
 [![Build Status](https://secure.travis-ci.org/dovadi/ParseP1.png?branch=master)](http://travis-ci.org/dovadi/ParseP1)
 
-Basic parser for P1 Companion Standard used by Dutch Smart Meters
+Basic parser for P1 Companion Standard used by Dutch Smart Meters.
 
+*Library is by no means complete (yet), it is now implemented only on one real example of a so called Dutch smart meter, in this case a Iskra MT382*
 
 Example of P1 data
 ==================
@@ -37,8 +38,9 @@ Usage
 
 <pre>
 p1 = ParseP1::Base.new(p1_string)  
-p1.electra_meter_id #-> 1A123456789012345678901234567890
-p1.electricity(:type => :import, :tariff => :normal)
+p1.electra_meter_id                                  #-> 1A123456789012345678901234567890
+p1.electricity(:type => :import, :tariff => :normal) #-> 116.34 (kWH)
+p1.electricity(:type => :import, :actual => :true)   #-> 1245   (watt)
 </pre>
 
 See tests for futher available methods
@@ -60,6 +62,13 @@ _or_
 bundle exec guard
 </pre>
 
+Caveats
+=======
+
+* Library is by no means complete (yet), it is now implemented only on one real example of a so called Dutch smart meter. In this case a Iskra MT382 (see docs and ([manuals](http://www.liander.nl/liander/meters/meterhandleidingen.htm))) delivered by [Liander](http://www.liander.nl/).
+* See [ReadP1 Arduino library](https://github.com/dovadi/ReadP1), which is used for posted the P1 data to a Ruby on Rails application.
+* Although P1 should be a standard, it is known there are different implementations in the Netherlands alone.
+* The library is implemented on the base of one long string received by a Ruby on Rails application. Parsing a text file will fail!
 
 Documentation
 =============
