@@ -41,6 +41,7 @@ p1 = ParseP1::Base.new(p1_string)
 p1.electra_meter_id                                  #-> 1A123456789012345678901234567890
 p1.electricity(:type => :import, :tariff => :normal) #-> 116.34 (kWH)
 p1.electricity(:type => :import, :actual => :true)   #-> 1245   (watt)
+p1.gas_usage                                         #-> 91.224   (watt)
 </pre>
 
 See tests for futher available methods

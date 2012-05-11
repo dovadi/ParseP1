@@ -33,7 +33,7 @@ class TestParseP1 < Test::Unit::TestCase
     end
 
   end
-  
+
   context 'Electricity data' do
 
     #S4 tag 4 bit string is NOT true
@@ -84,6 +84,23 @@ class TestParseP1 < Test::Unit::TestCase
       end
 
     end
+
+  end
+
+  context 'Gas data' do
+
+    should 'return the last hourly reading of gas usage' do
+      assert_equal DateTime.new(2012,5,2,15,0), @p1.last_hourly_reading_gas
+    end
+
+    should 'return the measurement unit of gas usage' do
+      assert_equal 'm3', @p1.measurement_unit_gas
+    end
+
+    should 'return the total usage of gas' do
+      assert_equal 92.112, @p1.gas_usage
+    end
+
   end
 
 end
