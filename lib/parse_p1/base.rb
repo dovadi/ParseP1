@@ -16,7 +16,13 @@ module ParseP1
     end
 
     def device_id
-      data.match(/^\/([a-zA-Z]{3}\d{1}.+)\r$/)
+      match_within_one_p1_record('\/([a-zA-Z]{3}\d{1}.+)\r$')
+    end
+
+    private
+
+    def match_within_one_p1_record(pattern)
+      data.match(/[\W|\w]*#{pattern}[\W|\w]*!/)
       $1
     end
 

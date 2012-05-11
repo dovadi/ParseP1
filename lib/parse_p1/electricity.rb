@@ -3,13 +3,12 @@ module ParseP1
   module Electricity
 
     def electra_meter_id
-      data.match(/0:96.1.1\S(\d{1}[A-Z]{1}\d{1,96})\S/)
-      $1
+      match_within_one_p1_record('0:96.1.1\S(\d{1}[A-Z]{1}\d{1,96})\S')
     end
 
     def electricity_tariff_indicator
-      data.match(/0-0:96.14.0\S(\d{1,9})\S/)
-      $1.to_i
+      result = match_within_one_p1_record('0-0:96.14.0\S(\d{1,9})\S')
+      result.to_i if result
     end
 
     def electricity_actual_threshold
@@ -31,13 +30,13 @@ module ParseP1
     private
 
     def get_electricity(obis_code)
-      data.match(/#{obis_code}\S(\d{1,9}\.\d{1,3})\S/)
-      $1.to_f
+      data.match(/\/[\W|\w]*#{obis_code}\S(\d{1,9}\.\d{1,3})\S[\W|\w]*!/)
+      $1.to_f if $1
     end
 
     def get_actual_electricity(type)
       power = get_electricity("1-0:#{first_electricity_code(type)}.7.0")
-      (power * 1000).to_i #Return as watts instead of kW
+      (power * 1000).to_i if power#Return as watts instead of kW
     end
 
     def first_electricity_code(code)
