@@ -48,8 +48,8 @@ module ParseP1
 
     def second_electricity_code(tariff)
       case tariff
-      when :normal; 1
-      when :low; 2
+      when :low; 1
+      when :normal; 2
       end
     end
 
