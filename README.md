@@ -37,10 +37,16 @@ Usage
 =====
 
 <pre>
-p1 = ParseP1::Base.new(p1_string)  
+p1 = ParseP1::Base.new(p1_string)
+
 p1.electra_meter_id                                  #-> 1A123456789012345678901234567890
 p1.electricity(:type => :import, :tariff => :normal) #-> 116.34 (kWH)
 p1.electricity(:type => :import, :actual => :true)   #-> 1245   (watt)
+
+or with the direct methods: electra_import_normal, electra_import_low, electra_export_normal and electra_export_low
+
+and for gas:
+
 p1.gas_usage                                         #-> 91.224 (m3)
 </pre>
 

@@ -52,23 +52,27 @@ class TestParseP1 < Test::Unit::TestCase
     end
 
     #F9 (3,3)
-    should 'return imported electricty with normal tarif' do
-      assert_equal 136.787, @p1.electricity(:type => :import, :tariff => :low)
-    end
-
-    #F9 (3,3)
     should 'return imported electricty with low tarif' do
-      assert_equal 131.849, @p1.electricity(:type => :import, :tariff => :normal)
+      assert_equal 136.787, @p1.electricity(:type => :import, :tariff => :low)
+      assert_equal 136.787, @p1.electra_import_low
     end
 
     #F9 (3,3)
-    should 'return electricty produced by client normal tarif' do
-      assert_equal 2.345, @p1.electricity(:type => :export, :tariff => :low)
+    should 'return imported electricty with normal tarif' do
+      assert_equal 131.849, @p1.electricity(:type => :import, :tariff => :normal)
+      assert_equal 131.849, @p1.electra_import_normal
     end
 
     #F9 (3,3)
     should 'return electricty produced by client low tarif' do
+      assert_equal 2.345, @p1.electricity(:type => :export, :tariff => :low)
+      assert_equal 2.345, @p1.electra_export_low
+    end
+
+    #F9 (3,3)
+    should 'return electricty produced by client normal tarif' do
       assert_equal 54.976, @p1.electricity(:type => :export, :tariff => :normal)
+      assert_equal 54.976, @p1.electra_export_normal
     end
 
     context 'Actual data' do
@@ -76,6 +80,7 @@ class TestParseP1 < Test::Unit::TestCase
       #F5 (3,3)
       should 'return actual power imported' do
         assert_equal 3200, @p1.electricity(:type => :import, :actual => true)
+        assert_equal 3200, @p1.actual_electra
       end
 
       #F5 (3,3)

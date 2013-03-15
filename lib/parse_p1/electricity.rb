@@ -15,6 +15,26 @@ module ParseP1
       electricity('0-0:17.0.0')
     end
 
+    def electra_import_low
+      electricity(:type => :import, :tariff => :low)
+    end
+
+    def electra_import_normal
+      electricity(:type => :import, :tariff => :normal)
+    end
+
+    def electra_export_low
+      electricity(:type => :export, :tariff => :low)
+    end
+
+    def electra_export_normal
+      electricity(:type => :export, :tariff => :normal)
+    end
+
+    def actual_electra
+      electricity(:type => :import, :actual => true)
+    end
+
     def electricity(options)
       if options.is_a?(Hash)
         if options[:actual] == true

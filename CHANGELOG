@@ -1,3 +1,6 @@
+* 0.0.6
+  Added so called direct methods electra_import_normal, electra_import_low, electra_export_normal and electra_export_low
+
 * 0.0.5
   Bug fix: normal and low tariffs for electricity were changed!
 
@@ -11,5 +14,4 @@
   Parsing of electricity and gas values
 
 * 0.0.1
-
   Initial release
