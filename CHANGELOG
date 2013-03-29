@@ -1,3 +1,6 @@
+* 0.0.7
+  Set encoding to UTF8
+ 
 * 0.0.6
   Added so called direct methods electra_import_normal, electra_import_low, electra_export_normal and electra_export_low
 
