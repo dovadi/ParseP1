@@ -5,16 +5,16 @@ module ParseP1
   module Electricity
 
     def electra_meter_id
-      match_within_one_p1_record('0:96.1.1\S(\d{1}[A-Z]{1}\d{1,96})\S')
+      match_within_one_p1_record('0:96\.1\.1\S(\d{1}[A-Z]{1}\d{1,96})\S')
     end
 
     def electricity_tariff_indicator
-      result = match_within_one_p1_record('0-0:96.14.0\S(\d{1,9})\S')
+      result = match_within_one_p1_record('0-0:96\.14\.0\S(\d{1,9})\S')
       result.to_i if result
     end
 
     def electricity_actual_threshold
-      electricity('0-0:17.0.0')
+      electricity('0-0:17\.0\.0')
     end
 
     def electra_import_low
@@ -57,7 +57,7 @@ module ParseP1
     end
 
     def get_actual_electricity(type)
-      power = get_electricity("1-0:#{first_electricity_code(type)}.7.0")
+      power = get_electricity("1-0:#{first_electricity_code(type)}\.7\.0")
       (power * 1000).to_i if power#Return as watts instead of kW
     end
 

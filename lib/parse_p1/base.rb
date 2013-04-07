@@ -18,7 +18,7 @@ module ParseP1
     end
 
     def device_id
-      match_within_one_p1_record('\/([a-zA-Z]{3}\d{1}.+)\r$')
+      match_within_one_p1_record('\/([a-zA-Z]{3}\d{1}.+[a-zA-Z]{2}\d{3}-\d{4})')
     end
 
     private
