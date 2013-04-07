@@ -1,3 +1,6 @@
+* 0.0.8
+  Improve robustness of parsing records with irregularities and different use of carriage return and line feed
+
 * 0.0.7
   Set encoding to UTF8
  
