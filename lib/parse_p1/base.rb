@@ -14,7 +14,7 @@ module ParseP1
     end
 
     def valid?
-      !data.match(/!$/).nil? && !device_id.nil?
+      !data.match(/!/).nil? && !device_id.nil?
     end
 
     def device_id
