@@ -5,7 +5,7 @@ module ParseP1
   module Electricity
 
     def electra_meter_id
-      match_within_one_p1_record('0:96\.1\.1\S(\d{1}[A-Z]{1}\d{1,96})\S')
+      match_within_one_p1_record('0:96\.1\.1\S(\d{1}[A-Z]{1}\d{1,96}|\d{32})\S')
     end
 
     def electricity_tariff_indicator
@@ -52,7 +52,7 @@ module ParseP1
     private
 
     def get_electricity(obis_code)
-      data.match(/\/[\W|\w]*#{obis_code}\S(\d{1,9}\.\d{1,3})\S[\W|\w]*!/)
+      data.match(/\/[\W|\w]*#{obis_code}\S(\d{1,9}\.*\d{0,3})\S[\W|\w]*!/)
       $1.to_f if $1
     end
 
