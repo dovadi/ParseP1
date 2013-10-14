@@ -15,11 +15,11 @@ module ParseP1
     end
 
     def measurement_unit_gas
-      match_within_one_p1_record('0-[1|2]:24\.2\.1\S\S(\w+)\S')
+      match_within_one_p1_record('0-[1|2]:24\.2\.[0|1]\S\S(\w+)\S')
     end
 
     def gas_usage
-      result = match_within_one_p1_record('\S0-[1|2]:24\.2\.1\S\S\w+\S\W{1,2}\S(\d{5}\.\d{3})\S')
+      result = match_within_one_p1_record('\S0-[1|2]:24\.2\.[0}1]\S\S\w+\S\W{1,2}\S(\d{5}\.\d{3})\S')
       result.to_f if result
     end
 
