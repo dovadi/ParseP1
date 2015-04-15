@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.summary     = %q{Parsing P1 Companion Standard used by Dutch Smart Meters}
   s.description = %q{Parsing P1 Companion Standard used by Dutch Smart Meters. Used in combination with a Nanode posting the P1 data to emonWeb.org}
   s.licenses    = ['MIT']
-  s.rubyforge_project = "parse_p1"
 
   s.extra_rdoc_files = [
      'CHANGELOG',
@@ -24,6 +23,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_development_dependency 'minitest'
   s.add_development_dependency 'shoulda'
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-test'
