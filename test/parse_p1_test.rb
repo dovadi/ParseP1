@@ -22,15 +22,16 @@ class TestParseP1 < Test::Unit::TestCase
   context 'Device identifiers' do
 
     should 'return the device_id of the meter' do
-       assert_equal 'ABc1\1AB123-4567', @p1.device_id
+      assert_equal 'ABc1\1AB123-4567', @p1.device_id
     end
 
     #Sn (n=0..96), octet string is NOT true
     should 'return the electra meter identifier of the meter' do
+                  #  '4530303034303031353330323031353134'
       assert_equal '1A123456789012345678901234567890', @p1.electra_meter_id
     end
 
-    #Sn (n=0..96) octet string 
+    #Sn (n=0..96) octet string
     should 'return the gas meter identifier of the meter' do
       assert_equal '1234567890123456789012345678901234', @p1.gas_meter_id
     end
@@ -47,11 +48,6 @@ class TestParseP1 < Test::Unit::TestCase
     #F4(1,1)
     should 'return the electricity actual threshold' do
       assert_equal 999.0, @p1.electricity_actual_threshold
-    end
-
-    #F9 (3,3)
-    should 'return electricity with a corresponding obis code' do
-      assert_equal 136.787, @p1.electricity('1-0:1.8.1')
     end
 
     #F9 (3,3)
@@ -83,12 +79,14 @@ class TestParseP1 < Test::Unit::TestCase
       #F5 (3,3)
       should 'return actual power imported' do
         assert_equal 3200, @p1.electricity(:type => :import, :actual => true)
-        assert_equal 3200, @p1.actual_electra
+        assert_equal 3200, @p1.actual_electra #Still in use for backward compability
+        assert_equal 3200, @p1.electra_import_actual
       end
 
       #F5 (3,3)
       should 'return actual power in case of a low tarif' do
         assert_equal 120, @p1.electricity(:type => :export, :actual => true)
+        assert_equal 120, @p1.electra_export_actual
       end
 
     end
@@ -113,27 +111,15 @@ class TestParseP1 < Test::Unit::TestCase
 
   context 'Gas data send through RF (different OBIS codes)' do
 
-    setup do
-      #Different OBIS codes for RF gas measurement:
-      # => 0-2:24.1.0
-      # => 0-2:96.1.0
-      # => 0-2:24.3.0
-      # => 0-2:24.2.1
-      # => 0-2:24.4.0
-      data  = "sBs\u0012C\u0002\u0002\nK*r\"CKR[Wh)\r\n1-0:2.8.1(00000.000*kWh)\r\n1-0:2.8.2(00000.\r\n/ABc1\\1AB123-4567\r\n\r\n0-0:96.1.1(1A123456789012345678901234567890)\r\n1-0:1.8.1(00136.787*kWh)\r\n1-0:1.8.2(00131.849*kWh)\r\n1-0:2.8.1(00002.345*kWh)\r\n1-0:2.8.2(00054.976*kWh)\r\n0-0:96.14.0(0002)\r\n1-0:1.7.0(0003.20*kW)\r\n1-0:2.7.0(0000.12*kW)\r\n0-0:17.0.0(0999.00*kW)\r\n0-0:96.3.10(1)\r\n0-0:96.13.1()\r\n0-0:96.13.0()\r\n0-2:24.1.0(3)\r\n0-2:96.1.0(1234567890123456789012345678901234)\r\n0-2:24.3.0(120502150000)(00)(60)(1)(0-2:24.2.1)(m3)\r\n(00092.112)\r\n0-2:24.4.0(1)\r\n!"
-      @p2   = ParseP1::Base.new(@data)
-    end
-
-    should 'return the last hourly reading of gas usage' do
-      assert_equal DateTime.new(2012,5,2,15,0), @p2.last_hourly_reading_gas
-    end
-
-    should 'return the measurement unit of gas usage' do
-      assert_equal 'm3', @p2.measurement_unit_gas
+    def p1_data(obis_code)
+      "sBs\u0012C\u0002\u0002\nK*r\"CKR[Wh)\r\n1-0:2.8.1(00000.000*kWh)\r\n1-0:2.8.2(00000.\r\n/ABc1\\1AB123-4567\r\n\r\n0-0:96.1.1(1A123456789012345678901234567890)\r\n1-0:1.8.1(00136.787*kWh)\r\n1-0:1.8.2(00131.849*kWh)\r\n1-0:2.8.1(00002.345*kWh)\r\n1-0:2.8.2(00054.976*kWh)\r\n0-0:96.14.0(0002)\r\n1-0:1.7.0(0003.20*kW)\r\n1-0:2.7.0(0000.12*kW)\r\n0-0:17.0.0(0999.00*kW)\r\n0-0:96.3.10(1)\r\n0-0:96.13.1()\r\n0-0:96.13.0()\r\n0-1:24.1.0(3)\r\n0-2:96.1.0(1234567890123456789012345678901234)\r\n" +obis_code + "(120502150000)(00)(60)(1)(0-2:24.2.1)(m3)\r\n(00092.112)\r\n0-1:24.4.0(1)\r\n!"
     end
 
     should 'return the total usage of gas' do
-      assert_equal 92.112, @p2.gas_usage
+      ['0-2:24.1.0', '0-2:24.3.0', '0-2:24.2.1', '0-2:24.4.0'].each do |obis_code|
+        p1 = ParseP1::Base.new(p1_data(obis_code))
+        assert_equal 92.112, p1.gas_usage
+      end
     end
 
   end
@@ -151,9 +137,9 @@ class TestParseP1 < Test::Unit::TestCase
     should 'tell if a very meshed string is P1 valid' do
       @irregular_data.each do |record|
         p1   = ParseP1::Base.new(record)
-        assert_equal true, p1.valid?
+        assert p1.valid?
         assert p1.gas_usage.is_a?(Float)
-        assert p1.actual_electra.is_a?(Integer)
+        assert p1.actual_electra.is_a?(Float)
         assert p1.device_id.is_a?(String)
         assert p1.electra_meter_id.is_a?(String)
         assert p1.gas_meter_id.is_a?(String)
