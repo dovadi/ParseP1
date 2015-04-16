@@ -34,9 +34,7 @@ module ParseP1
 
         #Values without a key are associated with the last known key
         if key.nil?
-
           key = @obis_records.keys.last
-          # p @obis_records[key]
           previous_values = @obis_records[key] if key
         end
 
