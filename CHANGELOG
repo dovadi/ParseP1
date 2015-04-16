@@ -1,3 +1,6 @@
+* 0.1.1
+  Major refactor to simplify and increase robustness of parser, it now also handles the Landys & Gyr E350 meter
+
 * 0.1.0
   Parse Gas values with different OBIS codes because of RF module on Gas meter
 
@@ -9,7 +12,7 @@
 
 * 0.0.7
   Set encoding to UTF8
- 
+
 * 0.0.6
   Added so called direct methods electra_import_normal, electra_import_low, electra_export_normal and electra_export_low
 
