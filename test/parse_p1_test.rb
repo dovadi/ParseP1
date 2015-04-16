@@ -11,10 +11,6 @@ class TestParseP1 < Test::Unit::TestCase
     @p1   = ParseP1::Base.new(@data)
   end
 
-  should 'return the p1_string' do
-    assert_equal @data, @p1.data
-  end
-
   should 'tell if string is P1 valid' do
     assert_equal true, @p1.valid?
   end

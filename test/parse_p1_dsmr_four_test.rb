@@ -9,10 +9,6 @@ class TestParseP1DsmrFour < Test::Unit::TestCase
     @p1   = ParseP1::Base.new(@data)
   end
 
-  should 'return the p1_string' do
-    assert_equal @data, @p1.data
-  end
-
   context 'Device identifiers' do
 
      should 'return the device_id of the meter' do

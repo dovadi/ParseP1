@@ -10,42 +10,50 @@ module ParseP1
     attr_reader :data, :device_id, :obis_records
 
     def initialize(data)
-      @data = data
+      @data = data.split('/').last.split('!').first.split
       @obis_records = {}
-      process(data)
+      extract_obis_records(@data)
     end
 
     def valid?
       electra_meter_id.is_a?(String) && actual_electra.is_a?(Float) && gas_meter_id.is_a?(String) && gas_usage.is_a?(Float)
     end
 
-    private
-
-    def process(data)
-      processed_data = data.split('/').last.split('!').first.split
-      @device_id = processed_data.shift
-      extract_obis_records(processed_data)
+    def device_id
+      data.shift
     end
+
+    private
 
     def extract_obis_records(data)
       data.each do |item|
-        array = item.split('(')
-        values = []
-        if array[0].match(obis_pattern)
-          key = $1
-        else
+        obis_values     = item.split('(')
+        previous_values = []
+
+        key = extract_key(obis_values)
+
+        #Values without a key are associated with the last known key
+        if key.nil?
+
           key = @obis_records.keys.last
-          values = @obis_records[key]
+          # p @obis_records[key]
+          previous_values = @obis_records[key] if key
         end
-        array[1..-1].each do |value|
-          value.chop! if value[-1] == ')'
-          values << value
-        end
-        @obis_records[key] = values
+
+        @obis_records[key] = previous_values + cleanup(obis_values)
       end
     end
 
-    def obis_pattern
+    def extract_key(record)
+      record.first.match(obis_record_pattern)
+      $1
+    end
+
+    def cleanup(obis_values)
+      obis_values[1..-1].map {|value| value[-1] == ')' ? value.chop : value }
+    end
+
+    def obis_record_pattern
       /(\d+-\d+:\d+\.\d+.\d+)/
     end
   end
