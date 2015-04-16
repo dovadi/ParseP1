@@ -1,4 +1,7 @@
-* 0.1.1
+* 0.1.2
+  Remove dependency on awesome_print
+
+* 0.1.1 (Flawed)
   Major refactor to simplify and increase robustness of parser, it now also handles the Landys & Gyr E350 meter
 
 * 0.1.0

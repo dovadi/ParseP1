@@ -9,7 +9,6 @@ if RUBY_VERSION =~ /1.9/
 end
 
 require 'date'
-require 'awesome_print'
 require 'parse_p1/electricity'
 require 'parse_p1/gas'
 require 'parse_p1/base'
