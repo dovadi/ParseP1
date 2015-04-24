@@ -18,19 +18,19 @@ module ParseP1
     end
 
     def electra_import_low
-      get_electricity('1-0:1.8.1')
-    end
-
-    def electra_import_normal
       get_electricity('1-0:1.8.2')
     end
 
+    def electra_import_normal
+      get_electricity('1-0:1.8.1')
+    end
+
     def electra_export_low
-      get_electricity('1-0:2.8.1')
+      get_electricity('1-0:2.8.2')
     end
 
     def electra_export_normal
-      get_electricity('1-0:2.8.2')
+      get_electricity('1-0:2.8.1')
     end
 
     #Only for backward compatibility
